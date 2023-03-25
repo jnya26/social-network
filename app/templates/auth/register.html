@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div>
+Please enter full your registration info:<br>
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}<br>
+    {{ form.username.label }} {{ form.username(size=20) }}<br>
+    {{ form.password.label }} {{ form.password(size=20) }}<br>
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.submit.label }} {{ form.submit() }}
+</form>
+
+
+</div>
+{% endblock %}
