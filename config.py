@@ -1,6 +1,16 @@
 import os
 from dotenv import load_dotenv
 
+
+# load environment variables from .env
 load_dotenv()
+
+
 class Config:
-    SECRET_KEY=os.environ.get("SECRET_KEY")
+    """
+    Base configuration class
+    """
+
+    # read from .env file
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///network.db'
