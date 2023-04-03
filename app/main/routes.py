@@ -12,27 +12,27 @@ def index():
         {
             "username": "akushyn",
             "email": "akushyn@gmail.com",
-            "password": '1234'
+
         },
         {
             "username": "anton",
             "email": "antonn@gmail.com",
-            "password": '1234'
+
         },
         {
             "username": "denys",
             "email": "denys@gmail.com",
-            "password": '1234'
+
         },
         {
             "username": "tanya",
             "email": "tanya@gmail.com",
-            "password": '1234'
+
         },
         {
             "username": "igor",
             "email": "igor@gmail.com",
-            "password": '1234'
+
         },
     ]
 
