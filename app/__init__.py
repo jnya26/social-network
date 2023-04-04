@@ -4,7 +4,6 @@ from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 
@@ -32,7 +31,7 @@ def create_app():
     from .auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
-    from .faker import bp as fake_bp
+    from .faker_ import bp as fake_bp
     app.register_blueprint(fake_bp)
 
     from . import models  # noqa

@@ -7,7 +7,6 @@ from app.models import User
 @bp.route("/")
 @bp.route("/index")
 def index():
-
     users_data = [
         {
             "username": "akushyn",
@@ -67,8 +66,3 @@ def about():
               'title': 'About us'
               }
     return render_template("about.html", **contex)
-
-
-
-
-
