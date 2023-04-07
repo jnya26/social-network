@@ -20,5 +20,6 @@ alembic==1.10.2
 Faker==18.3.1
 flake8==5.0.4
 Flask-Login==0.6.2
+psycopg2-binary==2.9.6
 
 

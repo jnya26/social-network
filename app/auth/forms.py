@@ -5,7 +5,7 @@ from wtforms import (
     BooleanField,
     SubmitField,
     EmailField,
-    validators
+    validators,
 )
 
 
@@ -29,6 +29,8 @@ class RegisterForm(LoginForm):
     """
     Register form
     """
+    first_name = StringField("First Name")
+    last_name = StringField("Last Name")
     email = EmailField("Email", validators=[validators.DataRequired(message="Email is required"), validators.Email()])
     confirm_password = PasswordField(
         "Confirm Password",
@@ -37,4 +39,6 @@ class RegisterForm(LoginForm):
             validators.EqualTo("password", message="Passwords should match")
         ]
     )
+    linkidln_link = StringField("Linkidln link")
+    facebook_link = StringField("Facebook link")
     submit = SubmitField("Register")
