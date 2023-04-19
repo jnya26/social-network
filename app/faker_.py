@@ -1,9 +1,8 @@
 import click
-from app.models import User
+from app.models import User, Profile
 from flask import Blueprint
 from faker import Faker
 from app import db
-
 
 bp = Blueprint('fake', __name__)
 faker = Faker()
@@ -23,24 +22,42 @@ def users(num):
         # generate fake email
         email = faker.email()
 
+        # generate fake password
+        password = faker.password()
+
+        # generate fake first_name
+        first_name = faker.first_name()
+
+        # generate fake last_name
+        last_name = faker.last_name()
+
         # get user by username & email
         user = (
             db.session.query(User)
             .filter(
                 User.username == username,
-                User.email == email
+                User.email == email,
+
             )
         ).first()
-
         # no such user in db yet --> insert
         if not user:
             user = User(
                 username=username,
                 email=email,
+                password=password
             )
+            user.set_password(password)
             db.session.add(user)
             users.append(user)
-
-    # persist changes
-    db.session.commit()
+            db.session.commit()
+        profile = Profile(user_id=user.id, first_name=first_name,
+                          last_name=last_name,
+                          bio="Lorem ipsum dolor sit amet, ",
+                          linkidln_link=f"https://facebook.com/{user.username}",
+                          facebook_link=f"https://linkied.com/{user.username}"
+                          )
+        db.session.add(profile)
+        # persist changes
+        db.session.commit()
     print(num, 'users added.')
