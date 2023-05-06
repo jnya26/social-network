@@ -1,0 +1,18 @@
+<div class="activities">
+
+    <div class="acts">
+       {% if "Followed" in act.action %}
+        👤   {{ act.action }}
+        {% elif "disliked" in act.action %}
+        👎   {{ act.action }}
+        {% elif "liked" in act.action %}
+        👍   {{ act.action }}
+        {% elif "profile" in act.action %}
+        ✏   {{ act.action }}
+        {% else %}
+        📝   {{ act.action }}
+        {% endif %}
+    </div>
+    <div class="act_created"> {{ act.created_at.strftime('%Y-%m-%d %H:%M:%S') }}<br></div>
+</div>
+

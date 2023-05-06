@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="blog_view">
+    {% for post in posts %}
+    {% include "_post.html" %}
+    {% endfor %}
+    <form method="post" action="{{ url_for('post.create') }}" novalidate>
+        {{ form.csrf_token }}
+        <div class=create_post>
+            <div class="command_creat">Create Post</div>
+            <div class="create_post_title">
+                <div class="title_left">Title
+                    {{ form.title(cols="1", class="form-control", placeholder="Write here", id="inputPassword") }}
+                    {% for error in form.title.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="create_content">
+                <div class="title_left">Add content</div>
+                {{ form.content(rows="10", class="form-control", placeholder="Write here",
+                id="exampleFormControlInput1") }}
+                {% for error in form.content.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="create_post_create">
+                <button class="btnd" type="submit">Create Post</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

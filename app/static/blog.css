@@ -1,0 +1,346 @@
+.blog_view {
+
+}
+
+.post {
+    width: 900px;
+    border: 2px solid #e1e1e1;
+    margin-top: 15px;
+    float: left;
+}
+
+.title_post {
+    background: #f7f6f6;
+    height: 50px;
+    font-size: 1.4em;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 5px;
+    border-bottom: 3px solid #e1e1e1;
+}
+
+.content_post {
+    font-size: 1em;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 2px;
+    background: #ffffff;
+}
+
+.post_created_at {
+    font-size: 0.9em;
+    color: darkgrey;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 15px;
+    font-style: italic;
+    background: #ffffff;
+}
+
+.post_footer {
+    background: #f7f6f6;
+    height: 58px;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 5px;
+    border-top: 3px solid #e1e1e1;
+}
+
+.post_likes {
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+
+.post_dislikes {
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin-left: 2px;
+
+}
+
+.post_dislikes_border {
+    border: 2px solid #e1e1e1;
+    float: left;
+    margin-left: 35px;
+    margin-top: -5px;
+    width: 3px;
+    height: 55px;
+
+}
+
+.post_delete {
+    float: left;
+    width: 150px;
+    margin-left: 50px;
+}
+
+.post_avatar {
+    float: right;
+    width: 100px;
+    padding-left: 25px;
+}
+
+.post_username {
+    float: right;
+    width: 100px;
+    display: block;
+    padding-left: 60px;
+    padding-top: 10px;
+}
+
+.create_post {
+    width: 374px;
+    border: 2px solid #e1e1e1;
+    margin-top: 15px;
+    float: right;
+    margin-left: 950px;
+    position: fixed;
+        background: #ffffff;
+}
+
+.command_creat {
+    background: #eeeeee;
+    height: 50px;
+    font-size: 1.4em;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 5px;
+    border-bottom: 3px solid #e1e1e1;
+}
+
+.create_post_title {
+    height: 100px;
+    width: 370px;
+    text-align: left;
+    padding-top: 5px;
+    border-bottom: 3px solid #e1e1e1;
+    font-size: 1.2em;
+    color: grey;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-style: italic;
+}
+
+.create_content {
+    width: 370px;
+    font-size: 1.2em;
+    text-align: left;
+    color: grey;
+    padding-top: 15px;
+    border-bottom: 3px solid #e1e1e1;
+    font-style: italic;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 10px;
+}
+
+.title_left {
+
+}
+
+.create_post_create {
+    width: 370px;
+}
+
+.btnd {
+    background-color: #ccc;
+    border: none;
+    width: 350px;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btnd:hover {
+    background-color: #555;
+}
+
+.btnd:after {
+    content: "";
+    background-color: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-radius: 100%;
+    transition: all 0.75s ease;
+}
+
+.btnd:hover:after {
+    width: 450px;
+    height: 200px;
+}
+
+.btn-like {
+    background: linear-gradient(to bottom, #D95860, #CC3F4C);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.btn-dislike {
+    background: linear-gradient(to bottom, #D95860, #CC3F4C);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-left: 9px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+a.my_link {
+    text-decoration: none;
+}
+
+.btn-like:hover, .btn-dislike:hover {
+    background: linear-gradient(to bottom, #CC3F4C, #B22C3A);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+}
+
+.btn-dislike:active {
+    transform: translateY(8px);
+}
+
+.btn-like:active {
+    transform: translateY(-8px);
+}
+
+.btn-like img, .btn-dislike img {
+    margin-right: 5px;
+    height: 20px;
+}
+
+.btn-like::after, .btn-dislike::after {
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+}
+
+.btn-like::after {
+    background: linear-gradient(to bottom, #D95860, #CC3F4C);
+}
+
+.btn-dislike::after {
+    background: linear-gradient(to bottom, #CC3F4C, #B22C3A);
+}
+
+.btn-like:focus, .btn-dislike:focus {
+    outline: none;
+}
+
+
+.btn-delete {
+    background: linear-gradient(to bottom, #D95860, #CC3F4C);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 9px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(to bottom, #CC3F4C, #B22C3A);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+
+
+}
+
+.btn-delete:active {
+    background: linear-gradient(to bottom, #9b2e2e, #6e1c1c);
+    box-shadow: 0px 1px 0px 0px #6e1c1c;
+    transform: translateY(1px);
+}
+
+.btn-delete:after {
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+}
+
+.btn-delete:after {
+    background: linear-gradient(to bottom, #D95860, #CC3F4C);
+}
+
+/*____________________________________________________________*/
+
+.post_mini {
+    border: 2px solid #e1e1e1;
+    width:877px;
+    margin-bottom: 20px;
+    align-content:center ;
+}
+
+.title_post_mini {
+    background: #f7f6f6;
+    height: 50px;
+    font-size: 1em;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    border-bottom: 3px solid #e1e1e1;
+}
+
+.content_post_mini {
+    font-size: 1em;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 2px;
+    background: #ffffff;
+}
+
+.post_created_at_mini {
+    font-size: 0.9em;
+    color: darkgrey;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 15px;
+    font-style: italic;
+    background: #ffffff;
+    margin-left: 650px;
+}
+
+
+
+
+

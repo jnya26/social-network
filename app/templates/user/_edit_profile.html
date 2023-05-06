@@ -1,0 +1,69 @@
+<div class="edit_info">
+    {% if user==current_user %}
+    <form method="post" action="{{ url_for('user.profile', username=user.username) }}">
+        {{ form.hidden_tag() }}
+
+        <label class="form_name_desc">Enter your country </label>
+
+        {{ form.country(class="form-control") }}
+        {% for error in form.country.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <label class="form_name_desc">Enter your last name</label>
+
+        {{ form.first_name(class="form-control") }}
+        {% for error in form.first_name.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <label class="form_name_desc">Enter your last name</label>
+
+        {{ form.last_name(class="form-control") }}
+        {% for error in form.last_name.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <label class="form_name_desc">Facebook Link</label>
+
+        {{ form.facebook_link(class="form-control") }}
+        {% for error in form.facebook_link.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <label class="form_name_desc">linkiden Link</label>
+
+        {{ form.linkidln_link(class="form-control", placeholder="Alo") }}
+        {% for error in form.linkidln_link.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <label class="form_name_desc">Your biography</label>
+        {{ form.bio(class="form-control") }}
+        {% for error in form.bio.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}<br>
+
+        <div class="checkbox">
+            <div class="form-group">
+                {{ form.confirm_update(class="form-check-input") }}
+                {{ form.confirm_update.label(class="form-check-label") }}
+            </div>
+            <br>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{{ url_for('user.profile', username=current_user.username) }}">
+            <button type="reset" class="btn btn-default">Cancel</button>
+        </a>
+
+    </form>
+    {% endif %}
+    <a href="#change_password" id="change" class="change_password_button">Change password form</a><br></div>
+
+
+
+
+
+
+
+

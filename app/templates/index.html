@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    {% for user in users %}
+    <li>{{ user.username }} - {{ user.email }} - {{ user.password }}</li>
+    {% endfor %}
+</ul><div class="blog_view">
+{% for post in posts%}
+{% include "_post.html" %}
+    {% endfor %}</div>
+{% endblock %}

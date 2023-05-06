@@ -1,0 +1,189 @@
+<link rel="stylesheet" href="../../static/main.css">{% extends "base.html" %}
+
+{% block content %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="large_container">
+    <div class="left_block">
+        <div class="quadrat"></div>
+        <div class="top_left_block_name">{{ user.username }}
+        </div>
+        <div class="avatar_photo_menu">
+            <div class="avatar_photo">
+                <img src="{{ user.profile.photo}}"
+                     alt="Default Profile Picture" class="main_avatar">
+            </div>
+            {% if user.id == current_user.id %}
+            <div class="button_edit_image"><a href="#edit_photo_form" id="edit_image"><i
+                    class="fa fa-pencil-square fa-lg"></i>
+                Change Avatar
+            </a><br></div>
+            <div id="edit_photo_form">
+                <form method="post" enctype="multipart/form-data">
+                    <input type="file" value="Edit avatar" required><br>
+                    <input type="submit" value="Upload">
+                </form>
+            </div>
+            {% endif %}
+            <p class="small">
+                <br> {{ user.profile.last_seen.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <div class="rower"></div>
+            <div class="number_container">
+
+                Followers: {{ following|length }}<br>
+                Posts: {{ posts|length }}<br>
+                Likes: {{ total_likes }}<br>
+                Dislikes: {{ total_dislikes }}<br>
+
+            </div>
+            <div class="rower"></div>
+            {% if current_user != user %}
+            {% if current_user.is_follow(user) %}
+            <div class="subscribe_bottun">
+                <a class="my_link" href="{{ url_for('user.unfollow', user_id=user.id) }}">Unfollow</a><br></div>
+            {% else %}
+            <div class="subscribe_bottun">
+                <a class="my_link" href="{{ url_for('user.follow', user_id=user.id) }}">Follow</a><br></div>
+            {% endif %}{% endif %}
+        </div>
+    </div>
+    <div class="right_block">
+        <div class="profile_info">
+            <div class="profile_info_top">
+                <div class="top_left_block_full">
+                    <div class="top_right_block_name">User info</div>
+                    <div class="rower_r"></div>
+                    <div class="user_info_container">
+                        <div class="user_info_container_name"><b>First Name:</b><br></div>
+                        <div class="user_info_container_info"> {{ user.profile.first_name }}<br></div>
+                        <div class="user_info_container_name"><b>Last Name: </b><br></div>
+                        <div class="user_info_container_info">{{ user.profile.last_name }} <br></div>
+                        <div class="user_info_container_name"><b>Biography: </b><br></div>
+                        <div class="user_info_container_info">{{ user.profile.bio }}<br></div>
+                        <div class="user_info_container_name"><b>Your Country: </b><br></div>
+                        <div class="user_info_container_info">{{ user.profile.country }} <br></div>
+                    </div>
+                </div>
+                <div class="top_right_block_button">
+                    {% if user.id==current_user.id%}
+                    <a href="#tab-change-profile" id="show_change_profile"><i class="fa fa-pencil-square fa-lg"></i>
+                        Edit profile
+                    </a>{% endif %}
+                    <br><br>
+                </div>
+                <div class="top_right_block_full">
+                    <ul class="fa-ul">
+                        <li><i class="fa-li fa fa-linkedin-square"></i>
+                            {% if user.profile.linkidln_link.split("linkiden.com/")[1] %}
+                            <a href="{{ user.profile.linkidln_link}}" class="links">
+                                {{ user.profile.linkidln_link.split("linkiden.com/")[1] }}</a>
+                            {% else %}<a href="{{ request.referrer }}" class="links">
+                                {{ user.profile.linkidln_link }}</a>
+                            {% endif %}
+                        </li>
+                        <li><i class="fa-li fa fa-facebook-square"></i>
+                            {% if user.profile.facebook_link.split("facebook.com/")[1] %}
+                            <a href="https://facebook.com/{{ user.profile.facebook_link.split('facebook.com/')[1] }}"
+                               class="links">
+                                {{ user.profile.facebook_link.split("facebook.com/")[1] }}</a>
+                            {% else %}<a href="{{ request.referrer }}" class="links">
+                                {{ user.profile.facebook_link }}</a>
+                            {% endif %}
+                        </li>
+                        <li><i class="fa-li fa fa-instagram"></i>
+                            {% if user.profile.instagram_link.split("instagram.com/")[1] %}
+                            <a href="https://instagram.com/{{ user.profile.instagram_link.split('instagram.com/')[1] }}"
+                               class="links">
+                                {{ user.profile.instagram_link.split("instagram.com/")[1] }} </a>
+                            {% else %}<a href="{{ request.referrer }}" class="links">
+                                {{ user.profile.instagram_link }}</a>
+                            {% endif %}
+                        </li>
+                        <li><i class="fa-li fa fa-twitter-square"></i>
+                            {% if user.profile.twitter_link.split("twitter.com/")[1] %}
+                            <a href="https://twitter.com/{{ user.profile.twitter_link}}" class="links">
+                                {{ user.profile.twitter_link.split("twitter.com/")[1] }}</a>
+                            {% else %}<a href="{{ request.referrer }}" class="links">
+                                {{ user.profile.twitter_link }}</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br><br>
+            <ul class="navigation">
+                <li class="navigation"><a href="#tab-friends" id="showblock_friends">Friends </a></li>
+                {% if user.id==current_user.id%}
+                <li class="navigation"><a href="#tab-activities" id="showblock_activities">Activities </a></li>
+                {% endif %}
+                <li class="navigation"><a href="#tab-blog" id="showblock_blog">Own Blog</a></li>
+            </ul>
+
+            <div class="profile_info_down_friends" id="tab-friends">
+                <div class="profile_info_down_friends_list_full">
+                    <div class="friends_list"><br>Followers <br>
+                        {% for follower in followers %}
+                        {% if loop.index <= 3 %}
+                        {% include "user/_followers_list.html" %}
+                        {% endif %}
+                        {% endfor %}
+                        <li class="navigation_followers"><a href="#view_all_followers">View All </a></li>
+                    </div>
+                    <div class="followings_list"><br>Followings: <br>
+                        {% for followings in following %}
+                        {% if loop.index <= 3 %}
+                        {% include "user/_followings_list.html" %}
+                        {% endif %}
+                        {% endfor %}
+                        <li class="navigation_friends"><a href="#view_all_friends">View All </a></li>
+                    </div>
+                </div>
+            </div>
+            <div class="view_all_followers" id="view_all_followers"><br>Followers <br>
+                {% for follower in followers %}
+                {% include "user/_followers_list.html" %}
+                {% endfor %}
+            </div>
+            <div class="view_all_friends" id="view_all_friends"><br>Followings <br>
+                {% for followings in following %}
+                {% include "user/_followings_list.html" %}
+                {% endfor %}
+            </div>
+
+            <div class="profile_info_down_activities" id="tab-activities">
+                <div class="profile_info_down_activities_list_full">
+                    <div class="activities_list">
+                        {% for act in acts %}
+                        {% if loop.index <= 10 %}
+                        {% include "user/_activities.html" %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="profile_info_down_blog" id="tab-blog">
+                <div class="profile_info_down_blog_list_full">
+                    <div class="blog_list">
+                        {% for post in posts %}<br>
+                        {% include "_post_mini.html" %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if user.id==current_user.id%}
+            <div class="profile_info_down_change_profile">
+                <div class="profile_info_down_change_profile_list_full">
+                    <div class="change_profile_list" id="tab-change-profile">
+                        {% include "user/_edit_profile.html" %}
+                    </div>
+                    <div class="change_profile_list" id="change_password">
+                        {% include "user/_change_password.html" %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
