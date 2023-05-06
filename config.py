@@ -28,9 +28,7 @@ class Config:
         api_secret=os.environ.get('CLOUDINARY_API_SECRET')
     )
 
-    print("cloud_name:" + cloudinary.config().cloud_name)
-    print("api:" + cloudinary.config().api_key)
-    print("api_secret:" + cloudinary.config().api_secret)
+   
 
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{}:{}@{}/{}'.format(
         POSTGRES_USER,
