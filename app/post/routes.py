@@ -46,7 +46,7 @@ def like(post_id):
     post = Posts.query.get_or_404(post_id)
 
     if Like.query.filter_by(user=current_user, post=post).count() > 0:
-        flash("You have already like it")
+        flash("You have already like it", category="error")
     else:
         dislike = db.session.query(Dislike).filter(Dislike.post_id == post.id).first()
         if dislike:
@@ -72,7 +72,7 @@ def like(post_id):
 def dislike(post_id):
     post = Posts.query.get_or_404(post_id)
     if Dislike.query.filter_by(user=current_user, post=post).count() > 0:
-        flash('You have already disliked this post!', 'warning')
+        flash('You have already disliked this post!', category="error")
     else:
         like = db.session.query(Like).filter(Like.post_id == post.id).first()
         if like:
