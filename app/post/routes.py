@@ -14,22 +14,27 @@ def create():
     if request.method == 'POST':
         if form.validate_on_submit():
             post = Posts(content=form.content.data, title=form.title.data, autor_id=current_user.id)
-            if post.author.profile.first_name != "To be update" and current_user.profile.first_name != "To be update":
+
+            post.content = form.content.data
+            db.session.add(post)
+            action_post = Posts.query.get_or_404(current_user.id)
+            if action_post.author.profile.first_name != "To be update" and current_user.profile.first_name != "To be update":
                 activity = Activities(
                     action=f"{current_user.profile.first_name} {current_user.profile.last_name} Created post ",
                     autor_id=current_user.id)
             else:
                 activity = Activities(action=f"{current_user.username} Created post ",
                                       autor_id=current_user.id)
-            post.content = form.content.data
-            db.session.add(post)
             db.session.add(activity)
             db.session.commit()
             flash("Your Post successfully added.", category='success')
         else:
             title = form.title.data
+            content = form.content.data
             if not title or len(title) < 2:
                 flash("Put at least 3 characters in title", category='error')
+            if not content or len(content) < 10:
+                flash("Put at least 10 characters in content", category='error')
         return redirect(url_for("user.blog"))
     return render_template('user/blog.html', title='Create Post', form=form)
 
