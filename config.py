@@ -28,8 +28,6 @@ class Config:
         api_secret=os.environ.get('CLOUDINARY_API_SECRET')
     )
 
-   
-
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{}:{}@{}/{}'.format(
         POSTGRES_USER,
         POSTGRES_PASSWORD,
