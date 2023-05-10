@@ -18,7 +18,8 @@ def create():
             post.content = form.content.data
             db.session.add(post)
             action_post = Posts.query.get_or_404(current_user.id)
-            if action_post.author.profile.first_name != "To be update" and current_user.profile.first_name != "To be update":
+            if action_post.author.profile.first_name != "To be update" and current_user.profile.first_name \
+                    != "To be update":
                 activity = Activities(
                     action=f"{current_user.profile.first_name} {current_user.profile.last_name} Created post ",
                     autor_id=current_user.id)
