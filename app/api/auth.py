@@ -13,10 +13,10 @@ class GenerateTokenResource(Resource):
         username = json_data['username']
         password = json_data['password']
 
-        user=db.session.query(User).filter(User.username==username).first()
+        user = db.session.query(User).filter(User.username == username).first()
         if not user.check_password(password):
             response = jsonify(error="Error occured")
-            response.status_code=400
+            response.status_code = 400
             return response
 
         access_token = create_access_token(identity=user.id)
