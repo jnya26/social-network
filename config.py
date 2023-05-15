@@ -1,3 +1,4 @@
+import datetime
 import os
 from dotenv import load_dotenv
 import cloudinary
@@ -34,3 +35,4 @@ class Config:
         POSTGRES_HOST,
         POSTGRES_DATABASE
     )
+JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(hours=5)
