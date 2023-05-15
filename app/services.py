@@ -1,6 +1,6 @@
 from app import db
 from app.models import User, Profile, Posts, Like, Dislike
-from schemas import UserSchema, PostSchema
+from schemas import UserSchema, PostSchema, ProfileSchema
 
 
 class UserService:
@@ -40,6 +40,16 @@ class UserService:
         db.session.delete(user)
         db.session.commit()
         return True
+
+
+class ProfileService:
+    def get_by_id(self, user_id):
+        profile = db.session.query(Profile).filter(Profile.user_id == user_id).first()
+        return profile
+
+    def update(self, data):
+        profile = ProfileSchema().load(data)
+        return profile
 
 
 class PostService:
