@@ -1,4 +1,4 @@
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 from flask_restful import Resource
 from flask import jsonify, request
 from app import db
@@ -117,3 +117,15 @@ class DislikesResource(Resource):
             dislikes_query = dislikes_query.ordered_by(Dislike.created_at.asc())
         dislikes = dislikes_query.all()
         return jsonify(LikeSchema().dump(dislikes, many=True))
+
+
+class BulkLikesResource(Resource):
+    def post(self):
+        json_data = request.get_json()
+        ids = json_data['ids']
+
+        likes = []
+        for id in ids:
+            likes.append(Like(user_id=current_user.id, post_id=id))
+
+        db.sessions.bulk_save_objects(likes)
