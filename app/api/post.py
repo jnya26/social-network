@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask import jsonify, request
 from app import db
@@ -12,6 +13,8 @@ dislike_service = DislikeService()
 
 
 class PostsResource(Resource):
+    method_decorators = [jwt_required()]
+
     def get(self):
         ordered = request.args.get('ordered', type=bool)
         posts_query = db.session.query(Posts)
@@ -30,12 +33,16 @@ class PostsResource(Resource):
 
 
 class PostsUserResource(Resource):
+    method_decorators = [jwt_required()]
+
     def get(self, autor_id):
         post = post_service.get_by_autor(autor_id)
         return jsonify(PostSchema().dump(post, many=True))
 
 
 class PostResource(Resource):
+    method_decorators = [jwt_required()]
+
     def get(self, id):
         post = post_service.get_by_id(id)
         post_data = PostSchema().dump(post, many=False)
@@ -60,6 +67,7 @@ class LikeResource(Resource):
     def get(self, id):
         like = like_service.get_like_by_like_id(id)
         return jsonify(LikeSchema().dump(like, many=False))
+
     def post(self, user_id, post_id):
         like = like_service.create(user_id, post_id)
         response = jsonify(LikeSchema().dump(like, many=False))
@@ -72,8 +80,9 @@ class LikeResource(Resource):
         db.session.commit()
         return True
 
+
 class LikesResource(Resource):
-    def get (self):
+    def get(self):
         ordered = request.args.get('ordered', type=bool)
         likes_query = db.session.query(Like)
         if ordered:
@@ -81,10 +90,12 @@ class LikesResource(Resource):
         likes = likes_query.all()
         return jsonify(LikeSchema().dump(likes, many=True))
 
+
 class DislikeResource(Resource):
     def get(self, id):
         dislike = dislike_service.get_like_by_dislike_id(id)
         return jsonify(LikeSchema().dump(dislike, many=False))
+
     def post(self, user_id, post_id):
         dislike = dislike_service.create(user_id, post_id)
         response = jsonify(LikeSchema().dump(dislike, many=False))
@@ -97,8 +108,9 @@ class DislikeResource(Resource):
         db.session.commit()
         return True
 
+
 class DislikesResource(Resource):
-    def get (self):
+    def get(self):
         ordered = request.args.get('ordered', type=bool)
         dislikes_query = db.session.query(Dislike)
         if ordered:

@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask import jsonify, request
 from app import db
@@ -9,8 +10,9 @@ user_service = UserService()
 
 
 class UsersResource(Resource):
-    def get(self):
+    method_decorators = [jwt_required()]
 
+    def get(self):
         ordered = request.args.get('ordered', type=bool)
 
         users_query = db.session.query(User)
@@ -29,6 +31,8 @@ class UsersResource(Resource):
 
 
 class UserResource(Resource):
+    method_decorators = [jwt_required()]
+
     def get(self, user_id):
         user = user_service.get_by_id(user_id)
 
