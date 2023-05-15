@@ -1,30 +1,81 @@
-from flask import Blueprint
-from flask_restful import Api
-from .users import UserResource, UsersResource
-from .post import PostsResource, PostResource, PostsUserResource, LikeResource, DislikeResource, LikesResource, \
-    DislikesResource
-from .auth import GenerateTokenResource
-from .profile import ProfileResource
+from flask import Flask
+from datetime import datetime
 
-bp = Blueprint('api', __name__, url_prefix='/api')
-api = Api(bp)
+from flask_jwt_extended import JWTManager
 
-api.add_resource(UsersResource, '/users', endpoint="users_list")
-api.add_resource(UserResource, '/users/<int:user_id>', endpoint="users_details")
-api.add_resource(UserResource, '/users/<string:username>', endpoint="users_details_username")
+from config import Config
+from flask_login import current_user
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
 
-api.add_resource(PostsResource, '/posts', endpoint="posts_list")
-api.add_resource(PostsUserResource, '/posts/user/<int:autor_id>', endpoint="users_posts_list")
-api.add_resource(PostResource, '/posts/<int:id>', endpoint="posts_list_by_id")
+db = SQLAlchemy()
+migrate = Migrate()
+login_manager = LoginManager()
 
-api.add_resource(LikeResource, '/post/<int:post_id>/like/<int:user_id>', endpoint="like_post_by_id")
-api.add_resource(LikesResource, '/likes', endpoint="all_likes")
-api.add_resource(LikeResource, '/like/<int:id>', endpoint="special_like_id")
+jwt = JWTManager()
 
-api.add_resource(DislikeResource, '/post/<int:post_id>/dislike/<int:user_id>', endpoint="dislike_post_by_id")
-api.add_resource(DislikesResource, '/dislikes', endpoint="all_dislikes")
-api.add_resource(DislikeResource, '/dislike/<int:id>', endpoint="special_dislike_id")
 
-api.add_resource(ProfileResource, '/profile/<int:user_id>', endpoint="profile_by_user_id")
+def create_app():
+    """
+    Application factory method to create application
+    :return: Flask application configured object
+    """
 
-api.add_resource(GenerateTokenResource, '/generate_token', endpoint="generate_token")
+    # create instance of Flask object
+    app = Flask(__name__)
+
+    # update application config from Config class in config.py
+    app.config.from_object(Config)
+
+    # install extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+    jwt.init_app(app)
+
+    # register blueprints here
+    from .main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    from .auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
+
+    from .user import bp as user_bp
+    app.register_blueprint(user_bp)
+
+    from .faker_ import bp as fake_bp
+    app.register_blueprint(fake_bp)
+
+    from .post import bp as post_bp
+    app.register_blueprint(post_bp)
+
+    from .api import bp as api_bp
+    app.register_blueprint(api_bp)
+
+    from . import models  # noqa
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return models.User.query.get(user_id)
+
+    @app.context_processor
+    def context_processor():
+        return dict(
+            current_user=current_user
+        )
+
+    return app
+
+
+# create instance of application
+app = create_app()
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        if current_user.profile:
+            current_user.profile.last_seen = datetime.utcnow()
+            db.session.commit()
