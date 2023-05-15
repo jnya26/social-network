@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import jsonify, request
 from app import db
-from app.models import Posts
+from app.models import Posts, Like, Dislike
 from app.services import PostService, LikeService, DislikeService
 from schemas import PostSchema, LikeSchema
 
@@ -57,6 +57,9 @@ class PostResource(Resource):
 
 
 class LikeResource(Resource):
+    def get(self, id):
+        like = like_service.get_like_by_like_id(id)
+        return jsonify(LikeSchema().dump(like, many=False))
     def post(self, user_id, post_id):
         like = like_service.create(user_id, post_id)
         response = jsonify(LikeSchema().dump(like, many=False))
@@ -69,8 +72,19 @@ class LikeResource(Resource):
         db.session.commit()
         return True
 
+class LikesResource(Resource):
+    def get (self):
+        ordered = request.args.get('ordered', type=bool)
+        likes_query = db.session.query(Like)
+        if ordered:
+            likes_query = likes_query.ordered_by(Like.created_at.asc())
+        likes = likes_query.all()
+        return jsonify(LikeSchema().dump(likes, many=True))
 
 class DislikeResource(Resource):
+    def get(self, id):
+        dislike = dislike_service.get_like_by_dislike_id(id)
+        return jsonify(LikeSchema().dump(dislike, many=False))
     def post(self, user_id, post_id):
         dislike = dislike_service.create(user_id, post_id)
         response = jsonify(LikeSchema().dump(dislike, many=False))
@@ -82,3 +96,12 @@ class DislikeResource(Resource):
         db.session.delete(dislike)
         db.session.commit()
         return True
+
+class DislikesResource(Resource):
+    def get (self):
+        ordered = request.args.get('ordered', type=bool)
+        dislikes_query = db.session.query(Dislike)
+        if ordered:
+            dislikes_query = dislikes_query.ordered_by(Dislike.created_at.asc())
+        dislikes = dislikes_query.all()
+        return jsonify(LikeSchema().dump(dislikes, many=True))
