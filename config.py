@@ -35,4 +35,6 @@ class Config:
         POSTGRES_HOST,
         POSTGRES_DATABASE
     )
+
+
 JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(hours=5)
