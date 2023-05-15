@@ -49,6 +49,7 @@ class PostSchema(BaseSchema):
 class LikeSchema(BaseSchema):
     class Meta:
         model = Like
+        fields = ('id', 'created_at', 'post_id', 'user_id',)
 
 
 class UserSchema(BaseSchema):
