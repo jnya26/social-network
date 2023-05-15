@@ -3,7 +3,7 @@ from flask_restful import Api
 from .users import UserResource, UsersResource
 from .post import PostsResource, PostResource, PostsUserResource, LikeResource, DislikeResource, LikesResource, \
     DislikesResource
-from .auth import GenerateTokenResource
+from.auth import GenerateTokenResource
 from .profile import ProfileResource
 
 bp = Blueprint('api', __name__, url_prefix='/api')
