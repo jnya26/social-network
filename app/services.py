@@ -98,9 +98,11 @@ class DislikeService:
     def get_dislike_by_post_id(self, post_id):
         dislike = db.session.query(Dislike).filter(Dislike.post_id == post_id).count()
         return dislike
+
     def get_like_by_dislike_id(self, id):
         dislike = db.session.query(Dislike).filter(Dislike.id == id).first()
         return dislike
+
     def create(self, user_id, post_id):
         dislike_post = Dislike(user_id=user_id, post_id=post_id)
         db.session.add(dislike_post)
