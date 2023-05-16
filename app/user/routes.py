@@ -28,6 +28,7 @@ def blog():
 def profile(username):
     user = db.session.query(User).filter(User.username == username).first_or_404()
     form = ProfileForm()
+
     result = ''
 
     if form.validate_on_submit():
@@ -39,12 +40,13 @@ def profile(username):
             'linkidln_link': user.profile.linkidln_link,
             'bio': user.profile.bio,
         }
-
         for field, value in fields.items():
-            if len(getattr(form, field).data) == 0:
+            form_field_data = getattr(form, field).data
+            if form_field_data is None or len(form_field_data) == 0:
                 setattr(form, field, value)
             else:
-                setattr(user.profile, field, getattr(form, field).data)
+                setattr(user.profile, field, form_field_data)
+
         if user.profile.first_name != "To be update" and current_user.profile.first_name != "To be update":
             activity = Activities(
                 action=f"{current_user.profile.first_name} {current_user.profile.last_name} Change Profile info ",
@@ -52,17 +54,16 @@ def profile(username):
         else:
             activity = Activities(action=f"{current_user.username} Change Profile info ",
                                   autor_id=current_user.id)
-
         db.session.add(activity)
+        db.session.commit()
+
+
+    formy = EditPasswordForm()
+    if formy.validate_on_submit():
+        user.set_password(formy.password.data)
         db.session.commit()
         flash("Your profile successfully updated.", category='success')
 
-        return redirect(url_for('user.profile', username=user.username))
-    formy = EditPasswordForm()
-    if formy.validate_on_submit():
-        user.password = formy.password.data
-        db.session.commit()
-        flash("Your  successfully changed your password.", category='success')
     elif request.method == 'GET':
         form.country.data = user.profile.country
         form.last_name.data = user.profile.last_name
