@@ -57,7 +57,6 @@ def profile(username):
         db.session.add(activity)
         db.session.commit()
 
-
     formy = EditPasswordForm()
     if formy.validate_on_submit():
         user.set_password(formy.password.data)
