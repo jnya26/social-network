@@ -57,22 +57,19 @@ class PostService:
         post = db.session.query(Posts).filter(Posts.id == id).first_or_404()
         return post
 
+    def get_by_autor(self, autor_id):
+        post = db.session.query(Posts).filter(Posts.autor_id == autor_id).all()
+        return post
 
-def get_by_autor(self, autor_id):
-    post = db.session.query(Posts).filter(Posts.autor_id == autor_id).all()
-    return post
+    def create(self, **kwargs):
+        post = Posts(title=kwargs.get('title'), content=kwargs.get('content'), autor_id=kwargs.get('autor_id'))
+        db.session.add(post)
+        db.session.commit()
+        return post
 
-
-def create(self, **kwargs):
-    post = Posts(title=kwargs.get('title'), content=kwargs.get('content'), autor_id=kwargs.get('autor_id'))
-    db.session.add(post)
-    db.session.commit()
-    return post
-
-
-def update(self, data):
-    post = PostSchema(exclude=('autor_id',)).load(data)
-    return post
+    def update(self, data):
+        post = PostSchema(exclude=('autor_id',)).load(data)
+        return post
 
 
 class LikeService:
