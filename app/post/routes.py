@@ -15,10 +15,11 @@ def create():
         if form.validate_on_submit():
             post = Posts(content=form.content.data, title=form.title.data, autor_id=current_user.id)
 
-            post.content = form.content.data
+            # post.content = form.content.data
             db.session.add(post)
-            action_post = Posts.query.get_or_404(current_user.id)
-            if action_post.author.profile.first_name != "To be update" and current_user.profile.first_name \
+            db.session.commit()
+
+            if post.author.profile.first_name != "To be update" and current_user.profile.first_name \
                     != "To be update":
                 activity = Activities(
                     action=f"{current_user.profile.first_name} {current_user.profile.last_name} Created post ",
